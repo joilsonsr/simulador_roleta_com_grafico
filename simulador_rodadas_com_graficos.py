@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 
-from escolha_duas_coluna import escolher_duas_colunas
 
 # Configuração das colunas da roleta
 COLUNA_1 = {1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34}
@@ -84,51 +83,6 @@ def escolher_colunas_dinamicamente(frequencia_colunas, atrasos, repeticoes_recen
     colunas_escolhidas = [coluna for coluna, _ in colunas_ordenadas[:2]]
     return colunas_escolhidas, {coluna: round(score, 2) for coluna, score in pontuacao.items()}
 
-def escolher_colunas_dinamicamente_2(frequencia_colunas, atrasos, repeticoes_recentes=None, peso_frequencia=0.7, peso_atraso=0.3, peso_repeticao=0.0):
-    """
-    Escolhe as duas colunas com base em múltiplos critérios dinâmicos.
-    
-    Parâmetros:
-    - frequencia_colunas: Dicionário com a frequência de cada coluna.
-    - atrasos: Dicionário com o número de sorteios desde a última aparição de cada coluna.
-    - repeticoes_recentes: Dicionário opcional com o número de repetições recentes de cada coluna.
-    - peso_frequencia: Peso atribuído à frequência (padrão: 0.7).
-    - peso_atraso: Peso atribuído ao atraso (padrão: 0.3).
-    - peso_repeticao: Peso atribuído às repetições recentes (padrão: 0.0).
-    
-    Retorna:
-    - Uma lista com as duas colunas escolhidas.
-    - Um dicionário com as pontuações detalhadas de cada coluna.
-    """
-    # Inicializar pontuação para cada coluna
-    pontuacao = {}
-    for coluna in ["coluna_1", "coluna_2", "coluna_3"]:
-        # Frequência: quanto maior, maior a pontuação
-        freq = frequencia_colunas.get(coluna, 0)
-        
-        # Atraso: quanto maior o atraso, maior a pontuação (usando inverso para evitar divisão por zero)
-        atraso = atrasos.get(coluna, 1)
-        pontuacao_atraso = 1 / (atraso + 1)  # Adicionamos 1 para evitar divisão por zero
-        
-        # Repetições recentes: penalizar colunas que participaram de repetições recentes
-        if repeticoes_recentes is not None:
-            repeticao = repeticoes_recentes.get(coluna, 0)
-        else:
-            repeticao = 0
-        
-        # Calcular pontuação combinada
-        pontuacao[coluna] = (
-            peso_frequencia * freq +
-            peso_atraso * pontuacao_atraso -
-            peso_repeticao * repeticao
-        )
-    
-    # Ordenar colunas pela pontuação (maior pontuação primeiro)
-    colunas_ordenadas = sorted(pontuacao.items(), key=lambda x: x[1], reverse=True)
-    
-    # Retornar as duas colunas com maior pontuação e as pontuações detalhadas
-    colunas_escolhidas = [coluna for coluna, _ in colunas_ordenadas[:2]]
-    return colunas_escolhidas, {coluna: round(score, 2) for coluna, score in pontuacao.items()}
 def calcular_repeticoes_recentes(resultados):
     """
     Calcula o número de repetições consecutivas recentes para cada coluna.
@@ -175,16 +129,7 @@ def calcular_repeticoes_recentes(resultados):
         repeticoes_recentes[coluna_atual] = contador
 
     return repeticoes_recentes
-# Função para escolher as duas colunas dinamicamente
-def escolher_colunas_dinamicamente_1(frequencia_colunas, atrasos, peso_frequencia=0.7, peso_atraso=0.3):
-    pontuacao = {}
-    for coluna in ["coluna_1", "coluna_2", "coluna_3"]:
-        pontuacao[coluna] = (
-            peso_frequencia * frequencia_colunas.get(coluna, 0) +
-            peso_atraso * (1 / (atrasos.get(coluna, 1) + 1))
-        )
-    colunas_ordenadas = sorted(pontuacao.items(), key=lambda x: x[1], reverse=True)
-    return [coluna for coluna, _ in colunas_ordenadas[:2]]
+
 # Função para carregar resultados das rodadas usando um seletor gráfico
 def carregar_resultados():
     Tk().withdraw()  # Oculta a janela principal do tkinter
@@ -335,13 +280,7 @@ def simular_apostas(resultados,resultados_analisados, saldo_inicial=100, aposta_
         # Calcular repetições recentes
         repeticoes_recentes = calcular_repeticoes_recentes(resultados_analisados) 
         repeticoes_antigas = calcular_repeticoes_antigas(resultados_analisados)
-        
-        # if calcular_max_col(atrasos) <=3  and inicia:
-        #     resultados_analisados.pop(0)
-        #     resultados_analisados.append(resultados[i])
-        #     continue
-        # else:
-        #     inicia =False
+   
        
         if 0 in resultados[i] or perdas_consecutivas >1:
             frequencia_colunas = contar_frequencias(resultados_analisados)
