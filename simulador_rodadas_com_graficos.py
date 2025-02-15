@@ -507,7 +507,7 @@ if __name__ == "__main__":
         ganhos_liquidos.append(ganho_liquido)
         
         # Plotar gráfico individual
-        #plotar_grafico(historico_apostas, estrategia, saldo_final, ganho_liquido)
+        plotar_grafico(historico_apostas, estrategia, saldo_final, ganho_liquido)
     
     # Plotar gráfico comparativo
     plotar_grafico_comparativo(historicos, estrategias, ganhos_liquidos)
