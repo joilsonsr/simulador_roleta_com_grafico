@@ -1,9 +1,9 @@
 # Simulador de Roleta - Estratégia de Aposta em Colunas/Dúzias
 
 	Este projeto simula uma estratégia de aposta em duas colunas ou duas(dúzias), 
-apostando em colunas e dúzias produzem o mesmo resultado, então os teste se concentraram nas colunas na roleta. 
-Ele usa resultados em formato JSON, foram gerados com web scraping( raspagem de site), em sorteios ao vivo para 
-simular rodadas e calcular o saldo final e ganhos
+	apostando em colunas e dúzias produzem o mesmo resultado, então os teste se concentraram nas colunas na roleta. 						
+	Ele usa resultados em formato JSON, foram gerados com web scraping( raspagem de site), em 	sorteios ao vivo para 
+	simular rodadas e calcular o saldo final e ganhos
 
 ## Como usar
 
